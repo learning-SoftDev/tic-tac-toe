@@ -1,0 +1,21 @@
+main {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    height:500px;
+    width: 500px;
+}
+
+.gameboard-items{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5em
+    
+}
+
+.gameboard-items:hover{
+    background-color: rgb(179, 185, 185);
+    cursor: pointer;
+}
