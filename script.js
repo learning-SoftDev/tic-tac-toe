@@ -31,7 +31,7 @@ const playRound = (e) => {
     const gridItem = e.target;
     if(gridItem.innerHTML !== '') return
     matchChoices();
-    turnCount = 0
+    
     let PlayerO_combinations = []
     let PlayerX_combinations = []
 
@@ -47,7 +47,7 @@ const playRound = (e) => {
             for(let i=0; i <= PlayerO.length -1; i++){
                 for(let j=1; j <= PlayerO.length -1; j++){
                   for(let k=2; k <= PlayerO.length -1; k++){
-                    if(k>j>i){
+                    if(k>j && j>i){
                       PlayerO_combinations.push([PlayerO[i]+','+PlayerO[j]+','+PlayerO[k]])
                     }
                   }
@@ -69,15 +69,8 @@ const playRound = (e) => {
             PlayerX.sort();
             for(let i=0; i <= PlayerX.length -1; i++){
                 for(let j=1; j <= PlayerX.length -1; j++){
-                    
                   for(let k=2; k <= PlayerX.length -1; k++){
-                   
-                        console.log('i: ' + i)
-                        console.log('j: ' + j)
-                        console.log('k: ' + k)
-                  
-    
-                    if(k>j>i){
+                    if(k>j && j>i){
                       PlayerX_combinations.push([PlayerX[i]+','+PlayerX[j]+','+PlayerX[k]])
                     }
                   }
@@ -91,7 +84,7 @@ const playRound = (e) => {
                     }
                 }
             }
-        }
+        };
     };
 
     
@@ -110,9 +103,11 @@ const playRound = (e) => {
 
     }
 
-    if(turnCount === 9 && (WinCounterO === 0 || winCounterX === 0)){
+    turnCount ++
+    if(turnCount === 9 && (winCounterO === 0 && winCounterX === 0)){
         console.log('No one won the match. Restart the game for a new match')
     }
+    
 }
 
 gameboardItems.forEach( (items) =>
