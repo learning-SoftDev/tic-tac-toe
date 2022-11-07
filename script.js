@@ -43,6 +43,8 @@ const playRound = (e) => {
     if(currentTurn ==='O'){
         PlayerO.push(gridIndex);
         if(PlayerO.length>2){
+
+            //Sort contents then run a for loop to to see if the current list contains a winning combination
             PlayerO.sort();
             for(let i=0; i <= PlayerO.length -1; i++){
                 for(let j=1; j <= PlayerO.length -1; j++){
@@ -62,7 +64,6 @@ const playRound = (e) => {
                 }
             }
         }
-        
     } else {
         PlayerX.push(gridIndex);
         if(PlayerX.length>2){
