@@ -1,9 +1,9 @@
 const gameboardItems = document.querySelectorAll('.gameboard-items');
 const buttonRestart = document.querySelector('#button-restart');
 const resultID = document.querySelector('#result-id')
-
 resultID.style.visibility="hidden"
-//Setting global variables
+
+//Setting variables
 let currentTurn = 'O';
 let gameboard = ['','','','','','','','',''];
 let winCounter = 0;
@@ -21,7 +21,21 @@ const winningPatterns = [
     [2,4,6],
 ];
 
-const playRound = (e) => {
+//Add event listener for each cell in the grid
+gameboardItems.forEach( (items) =>
+    items.addEventListener('click', playRound)
+);
+
+//Restart button
+buttonRestart.addEventListener('click', () => {
+    location.reload();
+});
+
+
+//Functions
+
+//Start round
+function playRound (e){
     
     //If target items is not empty do nothing
     const gridItem = e.target;
@@ -40,45 +54,41 @@ const playRound = (e) => {
     //Check if there is a winner
     if(currentTurn ==='O'){
         if(checkWinner(PlayerO,PlayerO_combinations) > 0){
-            resultID.style.visibility="visible"
-            resultID.classList.add('fadeIn')
             resultID.innerHTML = 'Player O won the game!';
-            for(i of gameboardItems){
-                i.removeEventListener('click',playRound);
-            };
-            buttonRestart.classList.add('grow-anim');
+            gameEnd()
         }
     } else {
         if(checkWinner(PlayerX,PlayerX_combinations) > 0){
-            resultID.style.visibility="visible"
-            resultID.classList.add('fadeIn')
             resultID.innerHTML = 'Player X won the game!';
-            for(i of gameboardItems){
-                i.removeEventListener('click',playRound);
-            };
-            buttonRestart.classList.add('grow-anim');
+            gameEnd()
         }
     };
 
     //If no one won, then pop up message to restart
     turnCount ++
     if(turnCount === 9 && (winCounter === 0)){
-        console.log('No one won the match. Restart the game for a new match')
+        resultID.innerHTML = 'Game ended. Click restart for a new match.';
+        gameEnd()
     }
 }
 
-//Add event listener for each cell in the grid
-gameboardItems.forEach( (items) =>
-    items.addEventListener('click', playRound)
-);
+//Game end
+function gameEnd(){
+    buttonResult();
+    for(i of gameboardItems){
+        i.removeEventListener('click',playRound);
+    };
+}
 
-//Restart button
-buttonRestart.addEventListener('click', () => {
-    location.reload();
-})
+//Result show logic
+function buttonResult(){
+    resultID.style.visibility="visible"
+    resultID.classList.add('fadeIn')
+    buttonRestart.classList.add('grow-anim');
+}
 
 //Match choices
-const matchChoices = () => {
+function matchChoices(){
     if (currentTurn === 'X') {
         currentTurn = 'O'
     } else {
@@ -88,7 +98,7 @@ const matchChoices = () => {
 }
 
 //Look for a match in the winning patterns
-const checkWinner = (Player,PlayerCombination) => {
+function checkWinner(Player,PlayerCombination){
     //Return index
     Player.push(gridIndex);
     if(Player.length>2){
